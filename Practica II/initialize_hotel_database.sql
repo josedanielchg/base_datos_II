@@ -4,7 +4,7 @@ USE HotelDB;
 
 -- Crear la tabla Hotel
 CREATE TABLE Hotel (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255),
     Address VARCHAR(255),
     Phone VARCHAR(15),
@@ -16,7 +16,7 @@ CREATE TABLE Hotel (
 
 -- Crear la tabla Staff
 CREATE TABLE Staff (
-    StaffID INT PRIMARY KEY,
+    StaffID INT AUTO_INCREMENT PRIMARY KEY,
     HotelID INT,
     FirstName VARCHAR(50),
     LastName VARCHAR(50),
@@ -31,7 +31,7 @@ CREATE TABLE Staff (
 
 -- Crear la tabla RoomType
 CREATE TABLE RoomType (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50),
     Description VARCHAR(255),
     PricePerNight DECIMAL(10,2),
@@ -40,7 +40,7 @@ CREATE TABLE RoomType (
 
 -- Crear la tabla Room
 CREATE TABLE Room (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     HotelID INT,
     TypeID INT,
     Status VARCHAR(20),
@@ -50,7 +50,7 @@ CREATE TABLE Room (
 
 -- Crear la tabla Guest
 CREATE TABLE Guest (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     FirstName VARCHAR(50),
     LastName VARCHAR(50),
     Address VARCHAR(255),
@@ -61,7 +61,7 @@ CREATE TABLE Guest (
 
 -- Crear la tabla Booking
 CREATE TABLE Booking (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     GuestID INT,
     RoomNumber INT,
     CheckinDate DATE,
@@ -73,7 +73,7 @@ CREATE TABLE Booking (
 
 -- Crear la tabla Payment
 CREATE TABLE Payment (
-    ID INT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     BookingID INT,
     Amount DECIMAL(10,2),
     PaymentDate DATE,
