@@ -3,10 +3,9 @@
 
 USE HotelDW;
 
-DELIMITER $$
-
 DROP PROCEDURE IF EXISTS FillDimensions;
 
+DELIMITER $$
 CREATE PROCEDURE FillDimensions(IN dbName VARCHAR(255))
 BEGIN
     -- Variable para construir las sentencias SQL
