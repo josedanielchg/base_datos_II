@@ -4,35 +4,39 @@ USE HotelDW;
 
 -- Crear la tabla Dimensión Tiempo
 CREATE TABLE DimTime (
-    TimeID INT PRIMARY KEY AUTO_INCREMENT,
+    TimeID INT AUTO_INCREMENT,
     Date DATE,
     Day INT,
     Month INT,
     Year INT,
-    IsWeekend BOOLEAN
+    IsWeekend BOOLEAN,
+    PRIMARY KEY (TimeID)
 );
 
 -- Crear la tabla Dimensión Rango de Edad
 CREATE TABLE DimAgeRange (
-    AgeRangeID INT PRIMARY KEY AUTO_INCREMENT,
-    RangeDescription VARCHAR(50)
+    AgeRangeID INT AUTO_INCREMENT,
+    RangeDescription VARCHAR(50),
+    PRIMARY KEY (AgeRangeID)
 );
 
 -- Crear la tabla Dimensión Tipo de Habitación
 CREATE TABLE DimRoomType (
-    RoomTypeID INT PRIMARY KEY AUTO_INCREMENT,
-    Type VARCHAR(50)
+    RoomTypeID INT AUTO_INCREMENT,
+    Type VARCHAR(50),
+    PRIMARY KEY (RoomTypeID)
 );
 
 -- Crear la tabla Dimensión Hotel
 CREATE TABLE DimHotel (
-    HotelID INT PRIMARY KEY,
-    HotelName VARCHAR(255)
+    HotelID INT AUTO_INCREMENT,
+    HotelName VARCHAR(255),
+    PRIMARY KEY (HotelID)
 );
 
 -- Crear la tabla de Hechos
 CREATE TABLE FactBooking (
-    FactID INT PRIMARY KEY AUTO_INCREMENT,
+    FactID INT AUTO_INCREMENT,
     TimeID INT,
     AgeRangeID INT,
     RoomTypeID INT,
@@ -42,5 +46,6 @@ CREATE TABLE FactBooking (
     FOREIGN KEY (TimeID) REFERENCES DimTime(TimeID),
     FOREIGN KEY (AgeRangeID) REFERENCES DimAgeRange(AgeRangeID),
     FOREIGN KEY (RoomTypeID) REFERENCES DimRoomType(RoomTypeID),
-    FOREIGN KEY (HotelID) REFERENCES DimHotel(HotelID)
+    FOREIGN KEY (HotelID) REFERENCES DimHotel(HotelID),
+    PRIMARY KEY (FactID)
 );

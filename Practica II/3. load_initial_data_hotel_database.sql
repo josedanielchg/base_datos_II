@@ -1,3 +1,5 @@
+USE HotelDB;
+
 INSERT INTO Hotel (Name, Address, Phone, Email, Stars, CheckinTime, CheckoutTime) VALUES
 ('Hotel Vista al Mar', '123 Calle Oceano, Ciudad Costera', '555-1234', 'info@vistaalmar.com', 4, '15:00:00', '12:00:00'),
 ('Hotel Campo Verde', '456 Camino Rural, Pueblo Tranquilo', '555-5678', 'contacto@campoverde.com', 3, '14:00:00', '11:00:00'),
