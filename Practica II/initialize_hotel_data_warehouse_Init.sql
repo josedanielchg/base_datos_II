@@ -37,6 +37,7 @@ CREATE TABLE FactBooking (
     AgeRangeID INT,
     RoomTypeID INT,
     HotelID INT,
+    TotalRooms INT,
     TotalRevenue DECIMAL(10,2),
     FOREIGN KEY (TimeID) REFERENCES DimTime(TimeID),
     FOREIGN KEY (AgeRangeID) REFERENCES DimAgeRange(AgeRangeID),
