@@ -29,6 +29,15 @@ CREATE TABLE Dim_Guest (
 );
 
 -- Crear las tablas de hechos
+CREATE TABLE Fact_Profits (
+    ID int PRIMARY KEY,
+    HotelID int,
+    DateID int,
+    TotalRevenue decimal(10,2),
+    FOREIGN KEY (HotelID) REFERENCES Dim_Hotel(HotelID),
+    FOREIGN KEY (DateID) REFERENCES Dim_Time(DateID)
+);
+
 CREATE TABLE Fact_Bookings (
     ID int PRIMARY KEY,
     HotelID int,
