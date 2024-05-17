@@ -156,7 +156,7 @@ SELECT
 	b1.GuestID,
 	r1.HotelID,
 	h.Name AS HotelName,
-	MIN(b1.checkOutDate) AS FirstCheckin,
+	MIN(b1.checkOutDate) AS FirstCheckout,
 	b2.CheckinDate AS NextCheckin,
 	DATEDIFF(b2.CheckinDate, b1.checkOutDate) AS DaysBetweenVisits
 FROM booking b1
@@ -165,8 +165,16 @@ FROM booking b1
     JOIN room r2 ON (r2.ID = b2.RoomNumber AND r1.HotelID = r2.HotelID)
     JOIN hotel h ON r1.HotelID = h.ID
 GROUP BY 
-    b1.GuestID, r1.HotelID, b1.checkOutDate, b2.CheckinDate
+    b1.GuestID, r1.HotelID, b1.checkOutDate, b2.CheckinDate, b2.ID
 HAVING 
-    COUNT(b2.CheckinDate) = 1
+    COUNT(b2.CheckinDate) = 1 AND
+	 b2.CheckinDate = (
+	 	SELECT b3.CheckinDate
+	 	FROM booking b3
+	 	JOIN room r3 ON (r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID)
+	 	WHERE b1.checkOutDate < b3.CheckinDate
+	 	ORDER BY b3.CheckinDate
+	 	LIMIT 1
+	 ) 
 ORDER BY 
-    b1.GuestID, r1.HotelID, FirstCheckin;
+    b1.GuestID, r1.HotelID, FirstCheckout;
