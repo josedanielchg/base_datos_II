@@ -148,23 +148,24 @@ GROUP BY
 
 
 ---------------------------------------------------------
--- Promedio de días de estadia por mes para cada hotel --
+-- Clientes que repiten estadía en un hotel de la cadena de hoteles, determinar cuanto tiempo pasa
+-- para que regresen --
 ---------------------------------------------------------
 
 SELECT 
 	b1.GuestID,
 	r1.HotelID,
 	h.Name AS HotelName,
-	MIN(b1.CheckinDate) AS FirstCheckin,
+	MIN(b1.checkOutDate) AS FirstCheckin,
 	b2.CheckinDate AS NextCheckin,
-	DATEDIFF(b2.CheckinDate, b1.CheckinDate) AS DaysBetweenVisits
+	DATEDIFF(b2.CheckinDate, b1.checkOutDate) AS DaysBetweenVisits
 FROM booking b1
     JOIN room r1 ON (r1.ID = b1.RoomNumber)
-    JOIN booking b2 ON (b1.GuestID = b2.GuestID AND b1.CheckinDate < b2.CheckinDate)
+    JOIN booking b2 ON (b1.GuestID = b2.GuestID AND b1.checkOutDate < b2.CheckinDate)
     JOIN room r2 ON (r2.ID = b2.RoomNumber AND r1.HotelID = r2.HotelID)
     JOIN hotel h ON r1.HotelID = h.ID
 GROUP BY 
-    b1.GuestID, r1.HotelID, b1.CheckinDate, b2.CheckinDate
+    b1.GuestID, r1.HotelID, b1.checkOutDate, b2.CheckinDate
 HAVING 
     COUNT(b2.CheckinDate) = 1
 ORDER BY 
