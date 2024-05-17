@@ -22,9 +22,10 @@ BEGIN
 
     -- Insertar ingresos para cada día entre vMinDate y vMaxDate
     WHILE vMinDate <= vMaxDate DO
-        INSERT INTO Fact_Profits (HotelID, DateID, TotalRevenue)
+        INSERT INTO Fact_Profits (HotelID, RoomID, DateID, TotalRevenue)
         SELECT
             h.HotelID,
+                dtr.TypeRoomID,
                 dt.DateID,
                 SUM(b.TotalPrice / DATEDIFF(b.CheckoutDate, b.CheckinDate))
             FROM
@@ -33,13 +34,14 @@ BEGIN
                 hoteldb.Room r ON b.RoomNumber = r.ID
             JOIN
                 Dim_Hotel h ON r.HotelID = h.HotelID
+            Join
+                Dim_Typeroom dtr ON r.TypeID = dtr.TypeRoomID
             JOIN
                 Dim_Time dt ON dt.Date = vMinDate
             WHERE
                 b.CheckinDate < vMinDate AND b.CheckoutDate >= vMinDate
             GROUP BY
-                h.HotelID, dt.DateID;
-
+                h.HotelID, dtr.TypeRoomID,dt.DateID;
         SET vMinDate = DATE_ADD(vMinDate, INTERVAL 1 DAY);
     END WHILE;
     END$$
