@@ -62,3 +62,15 @@ GROUP BY fb.HotelID, dt.`Month`, dt.`Year`
 -- para que regresen --
 ---------------------------------------------------------
 
+SELECT 
+	fb.GuestID,
+	fb.HotelID,
+	dh.Name AS HotelName,
+	fb.CheckinDate,
+	fb.CheckoutDate,
+	DaysBetweenVisits
+FROM fact_bookings fb
+	JOIN dim_hotel dh ON (fb.HotelID = dh.HotelID)
+	JOIN dim_time dt ON (fb.DateID = dt.DateID)
+WHERE
+	fb.DaysBetweenVisits > 0
