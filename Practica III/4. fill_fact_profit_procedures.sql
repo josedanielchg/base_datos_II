@@ -33,7 +33,7 @@ BEGIN
                 JOIN Dim_Hotel h ON r.HotelID = h.HotelID
                 JOIN Dim_Time dt ON dt.Date = vMinDate
             WHERE b.CheckinDate < vMinDate AND b.CheckoutDate >= vMinDate
-            GROUP BY h.HotelID, dt.DateID;
+            GROUP BY h.HotelID, dt.DateID, r.TypeID;
 
         SET vMinDate = DATE_ADD(vMinDate, INTERVAL 1 DAY);
     END WHILE;
