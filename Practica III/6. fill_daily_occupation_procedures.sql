@@ -75,7 +75,6 @@ BEGIN
 
                         SET vDailyRecord = NULL;
                         SELECT ID INTO vDailyRecord FROM Fact_DailyOccupation WHERE DateID = vDateID AND HotelID = vHotelID_dw;
-                        INSERT INTO DebugLog (message) VALUES (CONCAT('vDate: ', vDate, ', vDateID: ', vDateID, ', vHotelID_dw: ', vHotelID_dw, ', vDayCount: ', vDayCount, ', vDailyRecord: ', IFNULL(vDailyRecord, 'NULL')));
                         -- Insertar datos en Fact_DailyOccupation si hay habitaciones ocupadas
                         IF vDailyRecord IS NULL THEN
                             INSERT INTO Fact_DailyOccupation (HotelID, DateID, NumberOccupiedRooms, PercentageOccupiedRooms)
