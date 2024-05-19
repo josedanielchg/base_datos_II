@@ -21,6 +21,22 @@ ORDER BY fp.HotelID, dtr.Name;
 -- Cuantos dias un hotel dado por parametro solo estaba ocupado en menos del 50% agrupados por mes --
 -----------------------------------------------------------------------------------------------------
 
+USE hoteldw;
+
+SET @hotelName = 'Hotel Aventura Tropical';
+
+SELECT 
+	fd.HotelID AS HotelID,
+	dh.Name AS HotelName,
+	dt.`Month`,
+	dt.`Year`,
+	COUNT(*) AS RoomCount
+FROM fact_dailyoccupation fd
+	JOIN dim_time dt ON (fd.DateID = dt.DateID)
+	JOIN dim_hotel dh ON (dh.HotelID = fd.HotelID)
+WHERE fd.PercentageOccupiedRooms > 0.5
+	AND dh.Name = @hotelName
+GROUP BY dt.`Month`, dt.`Year`, fd.HotelID;
 
 
 
