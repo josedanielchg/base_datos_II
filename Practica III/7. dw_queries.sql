@@ -44,6 +44,16 @@ GROUP BY dt.`Month`, dt.`Year`, fd.HotelID;
 -- Promedio de días de estadia por mes para cada hotel --
 ---------------------------------------------------------
 
+SELECT 
+	dh.HotelID AS HotelID,
+	dh.Name AS HotelName,
+	dt.`Year`,
+	dt.`Month`,
+	AVG(fb.NumberNights) AS promedioNoches
+FROM fact_bookings fb
+	JOIN dim_hotel dh ON (fb.HotelID = dh.HotelID)
+	JOIN dim_time dt ON (fb.DateID = dt.DateID)
+GROUP BY fb.HotelID, dt.`Month`, dt.`Year`
 
 
 
@@ -51,3 +61,4 @@ GROUP BY dt.`Month`, dt.`Year`, fd.HotelID;
 -- Clientes que repiten estadía en un hotel de la cadena de hoteles, determinar cuanto tiempo pasa
 -- para que regresen --
 ---------------------------------------------------------
+
