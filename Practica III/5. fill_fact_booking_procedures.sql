@@ -52,7 +52,7 @@ BEGIN
             r1.HotelID,
             dt.DateID,
             b1.GuestID,
-            b1.CheckinDate,W
+            b1.CheckinDate,
             b1.CheckoutDate,
             DATEDIFF(b1.CheckoutDate, b1.CheckinDate) AS NumberNights,
             IFNULL((
@@ -84,3 +84,5 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+CALL LoadFactBookings();
