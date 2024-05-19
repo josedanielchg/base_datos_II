@@ -34,25 +34,24 @@ CREATE TABLE Fact_Profits (
       HotelID int,
       DateID int,
       TotalRevenue decimal(10,2),
+      TypeRoomID int,
       FOREIGN KEY (HotelID) REFERENCES Dim_Hotel(HotelID),
-      FOREIGN KEY (DateID) REFERENCES Dim_Time(DateID)
+      FOREIGN KEY (DateID) REFERENCES Dim_Time(DateID),
+      FOREIGN KEY (TypeRoomID) REFERENCES Dim_TypeRoom(TypeRoomID)
 );
 
 CREATE TABLE Fact_Bookings (
-       ID int AUTO_INCREMENT PRIMARY KEY,
-       HotelID int,
-       DateID int,
-       GuestID int,
-       TypeRoomID int,
-       CheckinDate date,
-       CheckoutDate date,
-       TotalRevenue decimal(10,2),
-       NumberNights int,
-       DaysBetweenVisits int,
-       FOREIGN KEY (HotelID) REFERENCES Dim_Hotel(HotelID),
-       FOREIGN KEY (DateID) REFERENCES Dim_Time(DateID),
-       FOREIGN KEY (GuestID) REFERENCES Dim_Guest(GuestID),
-       FOREIGN KEY (TypeRoomID) REFERENCES Dim_TypeRoom(TypeRoomID)
+      ID int AUTO_INCREMENT PRIMARY KEY,
+      HotelID int,
+      DateID int,
+      GuestID int,
+      CheckinDate date,
+      CheckoutDate date,
+      NumberNights int,
+      DaysBetweenVisits int,
+      FOREIGN KEY (HotelID) REFERENCES Dim_Hotel(HotelID),
+      FOREIGN KEY (DateID) REFERENCES Dim_Time(DateID),
+      FOREIGN KEY (GuestID) REFERENCES Dim_Guest(GuestID)
 );
 
 CREATE TABLE Fact_DailyOccupation (
