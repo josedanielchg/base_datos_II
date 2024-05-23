@@ -35,16 +35,11 @@ BEGIN
                     LIMIT 1
                 )
             ), 0) AS DaysBetweenVisits
-        FROM 
-            hoteldb.booking b1
-        JOIN 
-            hoteldb.room r1 ON b1.RoomNumber = r1.ID
-        JOIN 
-            Dim_Hotel dh ON r1.HotelID = dh.HotelID
-        JOIN 
-            Dim_Time dt ON dt.Date = b1.CheckinDate
-        WHERE 
-            b1.CheckoutDate <= vToday;
+        FROM hoteldb.booking b1
+        JOIN hoteldb.room r1 ON b1.RoomNumber = r1.ID
+        JOIN Dim_Hotel dh ON r1.HotelID = dh.HotelID
+        JOIN Dim_Time dt ON dt.Date = b1.CheckinDate
+        WHERE b1.CheckoutDate <= vToday;
     ELSE
         -- Tabla no está vacía, cargar datos sólo para los checkouts del día actual
         INSERT INTO Fact_Bookings (HotelID, DateID, GuestID, CheckinDate, CheckoutDate, NumberNights, DaysBetweenVisits)
@@ -52,7 +47,7 @@ BEGIN
             r1.HotelID,
             dt.DateID,
             b1.GuestID,
-            b1.CheckinDate,W
+            b1.CheckinDate,
             b1.CheckoutDate,
             DATEDIFF(b1.CheckoutDate, b1.CheckinDate) AS NumberNights,
             IFNULL((
@@ -70,17 +65,14 @@ BEGIN
                     LIMIT 1
                 )
             ), 0) AS DaysBetweenVisits
-        FROM 
-            hoteldb.booking b1
-        JOIN 
-            hoteldb.room r1 ON b1.RoomNumber = r1.ID
-        JOIN 
-            Dim_Hotel dh ON r1.HotelID = dh.HotelID
-        JOIN 
-            Dim_Time dt ON dt.Date = b1.CheckinDate
-        WHERE 
-            b1.CheckoutDate = vToday;
+        FROM hoteldb.booking b1
+        JOIN hoteldb.room r1 ON b1.RoomNumber = r1.ID
+        JOIN Dim_Hotel dh ON r1.HotelID = dh.HotelID
+        JOIN Dim_Time dt ON dt.Date = b1.CheckinDate
+        WHERE b1.CheckoutDate = vToday;
     END IF;
 END$$
 
 DELIMITER ;
+
+CALL LoadFactBookings();
