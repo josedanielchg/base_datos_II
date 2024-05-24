@@ -26,13 +26,13 @@ BEGIN
                 JOIN hoteldb.room r2 ON r2.ID = b2.RoomNumber AND r1.HotelID = r2.HotelID
                 WHERE b2.GuestID = b1.GuestID AND b1.checkOutDate < b2.CheckinDate
                 GROUP BY b2.GuestID, r2.HotelID, b1.checkOutDate, b2.CheckinDate
-                HAVING COUNT(b2.CheckinDate) = 1 AND b2.CheckinDate = (
-                    SELECT MIN(b3.CheckinDate)
+                HAVING NOT EXISTS (
+                    SELECT 1
                     FROM hoteldb.booking b3
-                    JOIN hoteldb.room r3 ON r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID
-                    WHERE b1.checkOutDate < b3.CheckinDate
-                    ORDER BY b3.CheckinDate
-                    LIMIT 1
+                    JOIN hoteldb.room r3 ON (r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID)
+                    WHERE b3.GuestID = b1.GuestID
+                      AND b3.CheckinDate > b1.checkOutDate
+                      AND b3.CheckinDate < b2.CheckinDate
                 )
             ), 0) AS DaysBetweenVisits
         FROM hoteldb.booking b1
@@ -56,13 +56,13 @@ BEGIN
                 JOIN hoteldb.room r2 ON r2.ID = b2.RoomNumber AND r1.HotelID = r2.HotelID
                 WHERE b2.GuestID = b1.GuestID AND b1.checkOutDate < b2.CheckinDate
                 GROUP BY b2.GuestID, r2.HotelID, b1.checkOutDate, b2.CheckinDate
-                HAVING COUNT(b2.CheckinDate) = 1 AND b2.CheckinDate = (
-                    SELECT MIN(b3.CheckinDate)
+                HAVING NOT EXISTS (
+                    SELECT 1
                     FROM hoteldb.booking b3
-                    JOIN hoteldb.room r3 ON r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID
-                    WHERE b1.checkOutDate < b3.CheckinDate
-                    ORDER BY b3.CheckinDate
-                    LIMIT 1
+                    JOIN hoteldb.room r3 ON (r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID)
+                    WHERE b3.GuestID = b1.GuestID
+                      AND b3.CheckinDate > b1.checkOutDate
+                      AND b3.CheckinDate < b2.CheckinDate
                 )
             ), 0) AS DaysBetweenVisits
         FROM hoteldb.booking b1

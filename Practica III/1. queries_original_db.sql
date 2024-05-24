@@ -152,8 +152,8 @@ GROUP BY
 -- para que regresen --
 ---------------------------------------------------------
 
-SELECT 
-	b1.GuestID,
+SELECT
+    b1.GuestID,
 	r1.HotelID,
 	h.Name AS HotelName,
 	MIN(b1.checkOutDate) AS FirstCheckout,
@@ -164,17 +164,15 @@ FROM booking b1
     JOIN booking b2 ON (b1.GuestID = b2.GuestID AND b1.checkOutDate < b2.CheckinDate)
     JOIN room r2 ON (r2.ID = b2.RoomNumber AND r1.HotelID = r2.HotelID)
     JOIN hotel h ON r1.HotelID = h.ID
-GROUP BY 
+GROUP BY
     b1.GuestID, r1.HotelID, b1.checkOutDate, b2.CheckinDate, b2.ID
-HAVING 
-    COUNT(b2.CheckinDate) = 1 AND
-	 b2.CheckinDate = (
-	 	SELECT b3.CheckinDate
-	 	FROM booking b3
-	 	JOIN room r3 ON (r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID)
-	 	WHERE b1.checkOutDate < b3.CheckinDate
-	 	ORDER BY b3.CheckinDate
-	 	LIMIT 1
-	 ) 
+HAVING NOT EXISTS (
+    SELECT 1
+    FROM booking b3
+    JOIN room r3 ON (r3.ID = b3.RoomNumber AND r1.HotelID = r3.HotelID)
+    WHERE b3.GuestID = b1.GuestID
+      AND b3.CheckinDate > b1.checkOutDate
+      AND b3.CheckinDate < b2.CheckinDate
+)
 ORDER BY 
     b1.GuestID, r1.HotelID, FirstCheckout;
